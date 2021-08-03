@@ -3,7 +3,7 @@ class FileTemplate {
     var hardLinks: String = ""
     var uid: String = ""
     var gid: String = ""
-    var size: Int = 0
+    var size: String = ""
     var lastModify: String = ""
     var fileName: String = ""
 

@@ -1,8 +1,12 @@
-class OutputParser(private val listStats: ArrayList<String?>){
+package parser
+
+import FileTemplate
+
+class LinuxParserTerminal(private val listStats: ArrayList<String?>): ParserTerminal() {
     private val fileTemplate = FileTemplate()
     private val list: ArrayList<String> = ArrayList()
 
-    private fun parse() {
+    override fun parse() {
         for (item in listStats) {
             if (item != null) {
                 for (value in item.split(" "))
@@ -19,7 +23,7 @@ class OutputParser(private val listStats: ArrayList<String?>){
 
         for (item in list.indices) {
             if ("Size:" == list[item]) {
-                fileTemplate.size = list[item + 1].toInt()
+                fileTemplate.size = list[item + 1]
                 break
             }
         }
@@ -60,43 +64,9 @@ class OutputParser(private val listStats: ArrayList<String?>){
         }
     }
 
-    fun getStats(): FileTemplate {
+    override fun getStats(): FileTemplate {
         parse()
+
         return fileTemplate
     }
-
-    //    fun getAccessFilePrivileges() {
-//        val string = listStats[3].split(" ")
-//        fileTemplate.accessPrivileges = string[1]
-//    }
-//
-//    fun getHardLinks() {
-//        val string = listStats[2].split(" ")
-//        fileTemplate.hardLinks = string[5]
-//    }
-//
-//    fun getUid() {
-//        val string = listStats[2].split(" ")
-//        fileTemplate.uid = string[4]
-//    }
-//
-//    fun getGid() {
-//        val string = listStats[2].split(" ")
-//        fileTemplate.gid = string[7]
-//    }
-//
-//    fun getFileSize() {
-//        val string = listStats[1].split(" ")
-//        fileTemplate.size = string[1].toInt()
-//    }
-//
-//    fun getLastModifyFile() {
-//        val string = listStats[5].split(" ")
-//        fileTemplate.lastModify = string[1] + " " + string[2]
-//    }
-//
-//    fun getFileName() {
-//        val string = listStats[0].split(" ")
-//        fileTemplate.fileName = string[1]
-//    }
 }
