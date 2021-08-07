@@ -1,6 +1,5 @@
 class FileTemplate {
     var accessPrivileges: String = ""
-    var hardLinks: String = ""
     var uid: String = ""
     var gid: String = ""
     var size: String = ""
@@ -8,6 +7,6 @@ class FileTemplate {
     var fileName: String = ""
 
     override fun toString(): String {
-        return "$accessPrivileges $hardLinks $uid $gid $size $lastModify $fileName"
+        return "$accessPrivileges $uid $gid $size $lastModify $fileName"
     }
 }
