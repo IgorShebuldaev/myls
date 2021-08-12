@@ -1,7 +1,4 @@
 import java.io.File
-import java.nio.file.Files
-import java.nio.file.Paths
-import java.nio.file.attribute.PosixFileAttributeView
 
 val file = File(System.getProperty("user.dir"))
 val listNames: Array<String> = file.list()
@@ -18,27 +15,14 @@ fun shortListingFormat() {
 }
 
 fun longListingFormat() {
-    var filesWithLongListingFormat: ArrayList<FileTemplate> = ArrayList()
-
-    for (item in listNames) {
-        filesWithLongListingFormat.add(getStats(item))
-    }
-
-    filesWithLongListingFormat = fixFormatting(filesWithLongListingFormat)
-
-    for (item in filesWithLongListingFormat) {
-        println(item.toString())
-    }
+    fixFormatting(listNames.map { name -> getFileStat(name) } as ArrayList<FileStat>).forEach { line -> println(line)}
 }
 
-fun getStats(fileName: String): FileTemplate {
-    val file = Paths.get(fileName)
-    val fileAttributes = Files.getFileAttributeView(file, PosixFileAttributeView::class.java).readAttributes()
-
-    return ParserTerminal(fileAttributes, fileName).getStats()
+fun getFileStat(fileName: String): FileStat {
+    return FileStat(fileName);
 }
 
-fun fixFormatting(filesWithLongListingFormat: ArrayList<FileTemplate>): ArrayList<FileTemplate>{
+fun fixFormatting(filesWithLongListingFormat: ArrayList<FileStat>): ArrayList<FileStat>{
     var max = 0;
     for (item in filesWithLongListingFormat) {
         if (max < item.size.length) {
@@ -49,7 +33,7 @@ fun fixFormatting(filesWithLongListingFormat: ArrayList<FileTemplate>): ArrayLis
     for (item in filesWithLongListingFormat) {
         if (max > item.size.length) {
             val a = max - item.size.length
-            item.size = item.size.padEnd(a + item.size.length)
+            item.size = item.size.padStart(a + item.size.length)
         }
     }
 
